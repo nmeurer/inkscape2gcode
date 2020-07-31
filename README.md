@@ -1,4 +1,4 @@
-# J Tech Photonics Laser Tool
+# inkscape2gcode
 
 This is the new official home for the JTP laser cutting Inskape extension.
 
