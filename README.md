@@ -1,7 +1,12 @@
 # inkscape2gcode
 
-Added a X, Y and Z offset function to the tool.
+An optimized version of the JTP Laser-Tool for use with 3D-Printers
 
+## Features compared to the JTP Laser-Tool
+- added a X, Y and Z offset function
+- full, only X and Y or no homing at all can be performed
+- option to disable moving to X0 Y0 after the tool is done
+- option to notify the user via a buzzer
 
 ## Installation
 
@@ -15,5 +20,5 @@ More documentation coming soon. In the meantime you can refer to [JTP's official
 
 ## For developers
 
-Pull requests are welcome. Just make sure to test your code on both Python >=2.6 and >=3.5 for the main branch, and Python >= 3.6 for the development branch (In the next major release we'll drop support for older python versions in an effort to improve code readability).
+Pull requests are welcome.
 
