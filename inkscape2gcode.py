@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Modified by Noah Meurer 2020, nmeurer.de, added offset support
+Modified by Noah Meurer 2020, nmeurer.de, added various features
 Modified by Jay Johnson 2015, J Tech Photonics, Inc., jtechphotonics.com
 modified by Adam Polak 2014, polakiumengineering.org
 
@@ -123,9 +123,7 @@ defaults = {
 	'header': """
 G90
 """,
-	'footer': """G1 X0 Y0
-
-"""
+	'footer': ""
 }
 
 intersection_recursion_depth = 10
@@ -597,6 +595,9 @@ class LaserGcode(inkex.Effect):
 		# Define command line arguments, inkex will use these to interface with the GUI defined in laser.ini
 
 		self.arguments = [
+			{"name": "--page", "type": str, "dest": "page",
+			 "default": "", "help": "Page"},
+
 			{"name": "--directory", "type": str, "dest": "directory",
 			 "default": "", "help": "Output directory"},
 
@@ -645,7 +646,13 @@ class LaserGcode(inkex.Effect):
 			 "help": "Hide messages during g-code generation"},
 
 			{"name": "--create-log", "type": bool, "dest": "log_create_log",
-			 "default": False, "help": "Create log files"},
+			 "default": "false", "help": "Create log files"},
+
+			{"name": "--move-when-done", "type": inkex.Boolean, "dest": "move_when_done",
+			 "default": False, "help": "Move to X0 Y0 when done"},
+
+			{"name": "--beep-when-done", "type": inkex.Boolean, "dest": "beep_when_done",
+			 "default": True, "help": "Play a tune when done"},
 
 			{"name": "--log-filename", "type": str, "dest": "log_filename",
 			 "default": '', "help": "Create log files"},
@@ -656,6 +663,9 @@ class LaserGcode(inkex.Effect):
 
 			{"name": "--unit", "type": str, "dest": "unit",
 			 "default": "G21 (All units in mm},", "help": "Units either mm or inches"},
+
+			{"name": "--homing", "type": str, "dest": "homing",
+			 "default": "G28 X Y", "help": "GCode for homing"},
 
 			{"name": "--active-tab", "type": str, "dest": "active_tab", "default": "",
 			 "help": "Defines which tab is active"},
@@ -821,11 +831,24 @@ class LaserGcode(inkex.Effect):
 				f.close()
 			else:
 				self.footer = defaults['footer']
-
+			# Parsing unit input
 			if self.options.unit == "G21 (All units in mm)":
 				self.header += "G21\n"
 			elif self.options.unit == "G20 (All units in inches)":
 				self.header += "G20\n"
+			# Parsing homing input
+			if self.options.homing == "G28 X Y":
+				self.header += "G28 X Y\n"
+			elif self.options.homing == "G28":
+				self.header += "G28\n"
+			#Parse move-when-done
+			if self.options.move_when_done == True:
+				self.footer += "G0 X0 Y0\n"
+			#Parse beep when done
+			if self.options.beep_when_done == True:
+				self.footer += "M300 S440 P200\n"
+				self.footer += "M300 S660 P250\n"
+				self.footer += "M300 S880 P300\n"
 		else:
 			self.error(_("Directory does not exist! Please specify existing directory at options tab!"), "error")
 			return False
@@ -874,12 +897,12 @@ class LaserGcode(inkex.Effect):
 		def c(c):
 			c = [c[i] if i < len(c) else None for i in range(6)]
 			if c[5] == 0: c[5] = None
-			s = [" X", " Y", " Z", " I", " J", " K"]
+			s = ["X", " Y", " Z", " I", " J", " K"]
 			r = ''
 			for i in range(6):
 				if c[i] != None:
 					#Handling X Offset
-					if s[i] == " X":
+					if s[i] == "X":
 						r += s[i] + ("%f" % (round(c[i], 4) + float(self.options.x_offset))).rstrip('0')
 					#Handling Y Offset
 					elif s[i] == " Y":
