@@ -1,6 +1,6 @@
 # inkscape2gcode
 
-An optimized version of the JTP Laser-Tool for use with 3D-Printers
+An optimized version of the JTP Laser-Tool Inkscape extension for use with 3D-Printers
 
 ## Features compared to the JTP Laser-Tool
 - added a X, Y and Z offset function
