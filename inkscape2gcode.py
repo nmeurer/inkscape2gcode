@@ -843,7 +843,7 @@ class LaserGcode(inkex.Effect):
 				self.header += "G28\n"
 			#Parse move-when-done
 			if self.options.move_when_done == True:
-				self.footer += "G0 X0 Y0\n"
+				self.footer += "G1 X0 Y0\n"
 			#Parse beep when done
 			if self.options.beep_when_done == True:
 				self.footer += "M300 S440 P200\n"
