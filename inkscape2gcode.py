@@ -841,6 +841,8 @@ class LaserGcode(inkex.Effect):
 				self.header += "G28 X Y\n"
 			elif self.options.homing == "G28":
 				self.header += "G28\n"
+			elif self.options.homing == "G28 Z":
+				self.header += "G28\n"
 			#Parse move-when-done
 			if self.options.move_when_done == True:
 				self.footer += "G1 X0 Y0\n"
