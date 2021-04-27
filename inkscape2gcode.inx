@@ -22,6 +22,7 @@
 			<param name="z-offset" type="float" min="-99999" max="99999" precision="2" _gui-text="Z Offset (mm or in):">0</param>
 			<param name="homing" type="enum" _gui-text="Homing (G28):">
 				<item value="G28 X Y">home only X and Y</item>
+				<item value="G28 Z">home only Z</item>
     			<item value="G28">home all axis</item>
     			<item value="">home none</item>
   			</param>
