@@ -1,6 +1,6 @@
 # inkscape2gcode
 
-##Now obsolete, please use the [JTP Laser-Tool](https://github.com/JTechPhotonics/J-Tech-Photonics-Laser-Tool)
+## Now obsolete, please use the [JTP Laser-Tool](https://github.com/JTechPhotonics/J-Tech-Photonics-Laser-Tool)
 An optimized version of the JTP Laser-Tool Inkscape extension for use with 3D-Printers
 
 ## Features compared to the JTP Laser-Tool
